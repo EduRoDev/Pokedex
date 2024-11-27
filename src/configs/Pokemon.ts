@@ -1,9 +1,17 @@
 import type { Pokemon, PokemonType } from '../Types/PokemonTypes';
 
-export async function getPokemon(url: string): Promise<{ results: { url: string }[] }> {
+export async function getPokemonList(url: string): Promise<{ results: { url: string }[] }> {
   const response = await fetch(url);
-  const data = await response.json();
-  return data;
+  return await response.json();
+}
+
+export async function getPokemonDetails(pokemons: { url: string }[]): Promise<Pokemon[]> {
+  return await Promise.all(
+    pokemons.map(async (pokemon) => {
+      const response = await fetch(pokemon.url);
+      return await response.json();
+    })
+  );
 }
 
 export function getStatColor(value: number): string {
@@ -33,4 +41,4 @@ export const typeColors: Record<PokemonType, string> = {
   fairy: "bg-pink-300",
 };
 
-export default getPokemon;
+export default getPokemonList;
