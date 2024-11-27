@@ -17,7 +17,7 @@ export const typeColors: Record<PokemonType, string> = {
   fire: "bg-orange-500",
   water: "bg-blue-500",
   electric: "bg-yellow-400",
-  grass: "bg-green-200",
+  grass: "bg-green-700",
   ice: "bg-cyan-300",
   fighting: "bg-red-700",
   poison: "bg-purple-500",
