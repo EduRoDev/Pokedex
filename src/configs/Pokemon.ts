@@ -1,14 +1,39 @@
-import type { Pokemon, PokemonType } from '../Types/PokemonTypes';
+import type { Pokemon } from '../Types/PokemonTypes';
 import fetchWithConcurrency from './solicitudes';
 
-export async function getPokemonList(url: string): Promise<{ results: { url: string }[] }> {
-  const response = await fetch(url);
-  return await response.json();
+interface PokemonListItem {
+  name: string;
+  url: string;
 }
 
-export async function getPokemonDetails(pokemons: { url: string }[]): Promise<Pokemon[]> {
+interface PokemonListResponse {
+  results: PokemonListItem[];
+}
+
+export async function getPokemonList(url: string): Promise<PokemonListItem[]> {
+  const response = await fetch(url);
+  const data: PokemonListResponse = await response.json();
+  
+  return data.results.map((pokemon, index) => ({
+    ...pokemon,
+    id: index + 1
+  }));
+}
+
+export async function getPokemonDetails(pokemons: PokemonListItem[]): Promise<Pokemon[]> {
   const urls = pokemons.map((pokemon) => pokemon.url);
-  return await fetchWithConcurrency(urls, 10);
+  const pokemonDetails = await fetchWithConcurrency(urls, 10);
+  
+
+  const speciesUrls = pokemonDetails.map((pokemon) => pokemon.species.url);
+  const speciesDetails = await fetchWithConcurrency(speciesUrls, 10);
+  
+  const combinedDetails = pokemonDetails.map((pokemon, index) => ({
+    ...pokemon,
+    isLegendary: speciesDetails[index].is_legendary
+  }));
+  
+  return combinedDetails.sort((a, b) => a.id - b.id);
 }
 
 export function getStatColor(value: number): string {
@@ -17,7 +42,7 @@ export function getStatColor(value: number): string {
   return "bg-green-500";
 }
 
-export const typeColors: Record<PokemonType, string> = {
+export const typeColors: Record<string, string> = {
   normal: "bg-gray-400",
   fire: "bg-orange-500",
   water: "bg-blue-500",
@@ -38,4 +63,3 @@ export const typeColors: Record<PokemonType, string> = {
   fairy: "bg-pink-300",
 };
 
-export default getPokemonList;

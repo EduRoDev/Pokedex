@@ -5,14 +5,14 @@ import { getPokemonList, getPokemonDetails, getStatColor, typeColors } from "../
 import type { Pokemon, PokemonType } from "../Types/PokemonTypes";
 
 const url = "https://pokeapi.co/api/v2/pokemon/?limit=1007";
-const pokemons = await getPokemonList(url);
-const pokemonDetails: Pokemon[] = await getPokemonDetails(pokemons.results);
-
+const pokemonList = await getPokemonList(url);
+const pokemonDetails: Pokemon[] = await getPokemonDetails(pokemonList);
 
 function getTypeColor(type: string): string {
   return typeColors[type as PokemonType] || "bg-gray-200";
 }
 ---
+
 <Layout title="Pokédex">
   <Navbar client:load />
   <div class="container mx-auto px-4">
@@ -40,8 +40,9 @@ function getTypeColor(type: string): string {
               </div>
             </div>
             <div class="p-4 text-white">
-              <h2 class="text-2xl font-bold mb-2 text-center capitalize">
+              <h2 class="text-2xl font-bold mb-2 text-center capitalize flex items-center justify-center">
                 {pokemon.name}
+                
               </h2>
               <div class="flex justify-between mb-4">
                 <span class="text-sm font-medium">
@@ -86,3 +87,4 @@ function getTypeColor(type: string): string {
     </ul>
   </div>
 </Layout>
+
