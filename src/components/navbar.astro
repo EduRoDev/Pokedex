@@ -2,21 +2,18 @@
 ---
 
 <nav class="bg-white shadow-md p-4 mb-8">
-    <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-600">Pokédex</h1>
-      <form id="searchForm" class="flex gap-2">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Buscar Pokémon..."
-          class="border rounded px-2 py-1 w-64"
-        />
-        <button type="submit" class="bg-blue-500 text-white px-4 py-1 rounded">
-          Buscar
-        </button>
-      </form>
-    </div>
-  </nav>
-
-  
-  
+  <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+    <h1 class="text-2xl font-bold text-blue-600 mb-4 sm:mb-0">Pokédex</h1>
+    <form id="searchForm" class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Buscar Pokémon..."
+        class="border rounded px-2 py-1 w-full sm:w-64"
+      />
+      <button type="submit" class="bg-blue-500 text-white px-4 py-1 rounded w-full sm:w-auto">
+        Buscar
+      </button>
+    </form>
+  </div>
+</nav>

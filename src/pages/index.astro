@@ -3,6 +3,7 @@ import Navbar from "../components/navbar.astro";
 import getPokemon, { getStatColor, typeColors } from "../configs/Pokemon";
 import Layout from "../layouts/layout.astro";
 import type { Pokemon, PokemonType } from "../Types/PokemonTypes";
+
 const url = "https://pokeapi.co/api/v2/pokemon/?limit=150";
 const pokemons = await getPokemon(url);
 
@@ -16,12 +17,12 @@ const pokemonDetails: Pokemon[] = await Promise.all(
 function getTypeColor(type: string): string {
   return typeColors[type as PokemonType] || "bg-gray-200";
 }
-
 ---
+
 <Layout title="Pokédex">	
 	<Navbar />
 	<div class="container mx-auto px-4">
-		<ul id="pokemonList" class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+		<ul id="pokemonList" class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 		  {pokemonDetails.map((pokemon: Pokemon) => {
 			const mainType = pokemon.types[0].type.name;
 			const cardColor = getTypeColor(mainType);
@@ -29,37 +30,37 @@ function getTypeColor(type: string): string {
 			  <li class={`pokemon-card rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1 ${cardColor}`} data-name={pokemon.name}>
 				<div class="relative">
 				  <img
-					class="w-full h-48 object-contain bg-white/80"
+					class="w-full h-40 sm:h-48 object-contain bg-white/80"
 					src={pokemon.sprites.front_default}
 					alt={pokemon.name}
 				  />
-				  <div class="absolute top-2 left-2 bg-white/80 rounded-full px-2 py-1 text-sm font-semibold text-gray-700">
+				  <div class="absolute top-2 left-2 bg-white/80 rounded-full px-2 py-1 text-xs sm:text-sm font-semibold text-gray-700">
 					#{pokemon.id.toString().padStart(3, '0')}
 				  </div>
 				</div>
-				<div class="p-4 text-white">
-				  <h2 class="text-2xl font-bold mb-2 text-center capitalize">{pokemon.name}</h2>
-				  <div class="flex justify-between mb-4">
-					<span class="text-sm font-medium">Altura: {pokemon.height / 10}m</span>
-					<span class="text-sm font-medium">Peso: {pokemon.weight / 10}kg</span>
+				<div class="p-3 sm:p-4 text-white">
+				  <h2 class="text-xl sm:text-2xl font-bold mb-2 text-center capitalize">{pokemon.name}</h2>
+				  <div class="flex justify-between mb-3 sm:mb-4">
+					<span class="text-xs sm:text-sm font-medium">Altura: {pokemon.height / 10}m</span>
+					<span class="text-xs sm:text-sm font-medium">Peso: {pokemon.weight / 10}kg</span>
 				  </div>
-				  <div class="mb-4">
-					<h3 class="text-lg font-semibold mb-2">Estadísticas</h3>
+				  <div class="mb-3 sm:mb-4">
+					<h3 class="text-base sm:text-lg font-semibold mb-1 sm:mb-2">Estadísticas</h3>
 					{pokemon.stats.map((stat) => (
 					  <div class="flex items-center mb-1">
-						<span class="w-24 text-sm font-medium capitalize">{stat.stat.name}</span>
-						<div class="flex-1 h-2 bg-white/30 rounded-full overflow-hidden">
+						<span class="w-20 sm:w-24 text-xs sm:text-sm font-medium capitalize">{stat.stat.name}</span>
+						<div class="flex-1 h-1 sm:h-2 bg-white/30 rounded-full overflow-hidden">
 						  <div
 							class={`h-full ${getStatColor(stat.base_stat)}`}
 							style={`width: ${(stat.base_stat / 255) * 100}%`}
 						  ></div>
 						</div>
-						<span class="w-8 text-right text-sm font-medium ml-2">{stat.base_stat}</span>
+						<span class="w-6 sm:w-8 text-right text-xs sm:text-sm font-medium ml-1 sm:ml-2">{stat.base_stat}</span>
 					  </div>
 					))}
 				  </div>
 				  <div class="flex justify-between items-center">
-					<div class="flex gap-1">
+					<div class="flex flex-wrap gap-1">
 					  {pokemon.types.map((type) => (
 						<span class="px-2 py-1 text-xs font-semibold text-white bg-white/30 rounded-full">
 						  {type.type.name}
@@ -103,6 +104,5 @@ function getTypeColor(type: string): string {
 		});
 	  }
 	});
-  </script>
-  
+</script>
 
