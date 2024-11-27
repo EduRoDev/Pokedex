@@ -4,7 +4,7 @@ import getPokemon, { getStatColor, typeColors } from "../configs/Pokemon";
 import Layout from "../layouts/layout.astro";
 import type { Pokemon, PokemonType } from "../Types/PokemonTypes";
 
-const url = "https://pokeapi.co/api/v2/pokemon/?limit=150";
+const url = "https://pokeapi.co/api/v2/pokemon/?limit=1007";
 const pokemons = await getPokemon(url);
 
 const pokemonDetails: Pokemon[] = await Promise.all(
