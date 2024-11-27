@@ -71,7 +71,7 @@ export default function Navbar({}: NavbarProps) {
         <h1 className="text-2xl font-bold text-blue-600 flex items-center gap-2">
           Pokédex
           <img
-            src="/src/images/Ball_icon.png"
+            src="images/Ball_icon.png"
             alt="Pokeball icon"
             className="w-8 h-8 inline-block"
             style={{ verticalAlign: "middle" }}

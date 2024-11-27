@@ -1,4 +1,5 @@
 import type { Pokemon, PokemonType } from '../Types/PokemonTypes';
+import fetchWithConcurrency from './solicitudes';
 
 export async function getPokemonList(url: string): Promise<{ results: { url: string }[] }> {
   const response = await fetch(url);
@@ -6,12 +7,8 @@ export async function getPokemonList(url: string): Promise<{ results: { url: str
 }
 
 export async function getPokemonDetails(pokemons: { url: string }[]): Promise<Pokemon[]> {
-  return await Promise.all(
-    pokemons.map(async (pokemon) => {
-      const response = await fetch(pokemon.url);
-      return await response.json();
-    })
-  );
+  const urls = pokemons.map((pokemon) => pokemon.url);
+  return await fetchWithConcurrency(urls, 10);
 }
 
 export function getStatColor(value: number): string {
